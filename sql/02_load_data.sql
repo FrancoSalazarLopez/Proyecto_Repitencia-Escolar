@@ -1,3 +1,19 @@
+INSERT INTO zona (zona)
+  VALUES  
+    ("sur"),
+    ("oeste"),
+    ("norte"),
+    ("suroeste"),
+    ("interior");
+-----------------------------------------------------------------------------------------------------------------------------------------------
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/stg_dolar.csv' 
+INTO TABLE stg_dolar
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"' 
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS
+
+-----------------------------------------------------------------------------------------------------------------------------------------------ç
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/stg_inversion.csv' 
 INTO TABLE stg_inversion
 FIELDS TERMINATED BY ',' 
@@ -37,3 +53,4 @@ IGNORE 1 ROWS
 reinscripcion_primaria, reinscripcion_secundaria, abandono_interanual_primaria, abandono_interanual_secundaria, alumnos_promovidos_primaria,
 alumnos_promovidos_secundaria, alumnos_no_promovidos_primaria, alumnos_no_promovidos_secundaria, salidos_sin_pase_primaria, salidos_sin_pase_secundaria, 
 salidos_con_pase_primaria, salidos_con_pase_secundaria, sobreedad_primaria, sobreedad_secundaria, sobreedad_avanzada_primaria,sobreedad_avanzada_secundaria);
+
