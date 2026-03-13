@@ -1,8 +1,7 @@
-### Importación y Creación de Tablas
+Importación y Creación de Tablas
 
 Para asegurar la integridad de los datos en el proyecto de repitencia, definimos la estructura de la tabla de transferencias:
 
-```sql
 CREATE TABLE dataset_transferencias (
     anio INT,
     mes INT,
