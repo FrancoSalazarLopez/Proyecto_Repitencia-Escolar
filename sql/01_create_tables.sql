@@ -15,14 +15,18 @@ CREATE TABLE stg_inversion (
     id_municipio INT,
     municipio VARCHAR(50),
     concepto VARCHAR(50),
-    monto FLOAT);
+    monto FLOAT,
+	id_zona INT,
+	FOREIGN KEY (id_zona) REFERENCES zona(id));
 
 -------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE stg_poblacion (
 	municipio_id FLOAT,
     municipio_nombre VARCHAR(50), 
 	anio INT,
-    poblacion INT);
+    poblacion INT,
+	id_zona INT,
+	FOREIGN KEY (id_zona) REFERENCES zona(id));
 
 -------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE stg_colegios (
@@ -38,7 +42,9 @@ CREATE TABLE stg_colegios (
   matricula_sexo_masculino INT,
   matricula_nivel_inicial INT,
   matricula_nivel_primario INT,
-  matricula_nivel_secundario INT);
+  matricula_nivel_secundario INT,
+  id_zona INT,
+  FOREIGN KEY (id_zona) REFERENCES zona(id));
 
 -------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE stg_repitencia (
@@ -64,4 +70,6 @@ CREATE TABLE stg_repitencia (
   sobreedad_primaria DECIMAL(10,2),
   sobreedad_secundaria DECIMAL(10,2),
   sobreedad_avanzada_primaria DECIMAL(10,2),
-  sobreedad_avanzada_secundaria DECIMAL(10,2));
+  sobreedad_avanzada_secundaria DECIMAL(10,2),
+  id_zona INT,
+  FOREIGN KEY (id_zona) REFERENCES zona(id));
