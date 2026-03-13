@@ -26,3 +26,14 @@ IGNORE 1 ROWS
 unidades_de_servicio_nivel_secundario, sector_de_gestión_estatal, sector_de_gestión_privada, matricula_sexo_femenino, 
 matricula_sexo_masculino, matricula_nivel_inicial, matricula_nivel_primario, matricula_nivel_secundario);
 -----------------------------------------------------------------------------------------------------------------------------------------------
+
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/stg_repitencia.csv' 
+INTO TABLE stg_repitencia
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"' 
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS
+(anio, municipio_id, municipio_nombre, promocion_efectiva_primaria, promocion_efectiva_secundaria, repitencia_primaria, repitencia_secundaria,
+reinscripcion_primaria, reinscripcion_secundaria, abandono_interanual_primaria, abandono_interanual_secundaria, alumnos_promovidos_primaria,
+alumnos_promovidos_secundaria, alumnos_no_promovidos_primaria, alumnos_no_promovidos_secundaria, salidos_sin_pase_primaria, salidos_sin_pase_secundaria, 
+salidos_con_pase_primaria, salidos_con_pase_secundaria, sobreedad_primaria, sobreedad_secundaria, sobreedad_avanzada_primaria,sobreedad_avanzada_secundaria);
