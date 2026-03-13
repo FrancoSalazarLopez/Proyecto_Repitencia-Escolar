@@ -12,7 +12,7 @@ CREATE TABLE stg_dolar(
 CREATE TABLE stg_inversion (
     anio INT,
     mes INT,
-    id_municipio INT,
+    municipio_id INT,
     municipio VARCHAR(50),
     concepto VARCHAR(50),
     monto FLOAT,
