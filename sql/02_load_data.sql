@@ -7,6 +7,15 @@ IGNORE 1 ROWS
 (anio,mes,municipio_id,municipio_nombre,concepto,monto);
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/stg_poblacion.csv' 
+INTO TABLE stg_poblacion
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"' 
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS
+(municipio_id,municipio_nombre,anio,poblacion);
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/stg_colegios.csv' 
 INTO TABLE stg_colegios
 FIELDS TERMINATED BY ',' 
