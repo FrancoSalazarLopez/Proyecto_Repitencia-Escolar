@@ -1,9 +1,12 @@
-Creación de Tablas
-
 CREATE TABLE zona 
-    (Id int auto_increment,
-     Zona varchar(10),
+    (id int auto_increment,
+     zona varchar(10),
      primary key(id));
+
+-------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE stg_dolar(
+	 anio INT,
+     valor DECIMAL(10,2));
 
 -------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE stg_inversion (
@@ -22,7 +25,6 @@ CREATE TABLE stg_poblacion (
     poblacion INT);
 
 -------------------------------------------------------------------------------------------------------------------------------
-
 CREATE TABLE stg_colegios (
   anio INT,
   municipio_id INT,
