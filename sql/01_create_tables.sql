@@ -13,22 +13,22 @@ CREATE TABLE stg_inversion (
     anio INT,
     mes INT,
     municipio_id INT,
+	municipio_nombre VARCHAR(50),
     concepto VARCHAR(50),
     monto FLOAT);
 
 -------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE stg_poblacion (
-	municipio_id FLOAT,
+	municipio_id INT,
     municipio_nombre VARCHAR(50), 
 	anio INT,
-    poblacion INT,
-	id_zona INT,
-	FOREIGN KEY (id_zona) REFERENCES zona(id));
+    poblacion INT);
 
 -------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE stg_colegios (
   anio INT,
-  municipio_id INT,
+  municipio_id INT, 
+  municipio_nombre VARCHAR(50),
   unidades_de_servicio_nivel_inicial INT,
   unidades_de_servicio_nivel_primario INT,
   unidades_de_servicio_nivel_secundario INT,
@@ -44,6 +44,7 @@ CREATE TABLE stg_colegios (
 CREATE TABLE stg_repitencia (
   anio INT,
   municipio_id INT,
+  municipio_nombre VARCHAR(50),
   promocion_efectiva_primaria DECIMAL(10,2),
   promocion_efectiva_secundaria DECIMAL(10,2),
   repitencia_primaria DECIMAL(10,2),
