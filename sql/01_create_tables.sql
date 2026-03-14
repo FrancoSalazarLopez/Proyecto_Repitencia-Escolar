@@ -1,4 +1,4 @@
-CREATE TABLE zona 
+CREATE TABLE stg_zona 
     (id int auto_increment,
      zona varchar(10),
      primary key(id));
@@ -13,11 +13,8 @@ CREATE TABLE stg_inversion (
     anio INT,
     mes INT,
     municipio_id INT,
-    municipio VARCHAR(50),
     concepto VARCHAR(50),
-    monto FLOAT,
-	id_zona INT,
-	FOREIGN KEY (id_zona) REFERENCES zona(id));
+    monto FLOAT);
 
 -------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE stg_poblacion (
@@ -32,7 +29,6 @@ CREATE TABLE stg_poblacion (
 CREATE TABLE stg_colegios (
   anio INT,
   municipio_id INT,
-  municipio_nombre VARCHAR(50),
   unidades_de_servicio_nivel_inicial INT,
   unidades_de_servicio_nivel_primario INT,
   unidades_de_servicio_nivel_secundario INT,
@@ -42,15 +38,12 @@ CREATE TABLE stg_colegios (
   matricula_sexo_masculino INT,
   matricula_nivel_inicial INT,
   matricula_nivel_primario INT,
-  matricula_nivel_secundario INT,
-  id_zona INT,
-  FOREIGN KEY (id_zona) REFERENCES zona(id));
+  matricula_nivel_secundario INT);
 
 -------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE stg_repitencia (
   anio INT,
   municipio_id INT,
-  municipio_nombre VARCHAR(50),
   promocion_efectiva_primaria DECIMAL(10,2),
   promocion_efectiva_secundaria DECIMAL(10,2),
   repitencia_primaria DECIMAL(10,2),
@@ -70,6 +63,4 @@ CREATE TABLE stg_repitencia (
   sobreedad_primaria DECIMAL(10,2),
   sobreedad_secundaria DECIMAL(10,2),
   sobreedad_avanzada_primaria DECIMAL(10,2),
-  sobreedad_avanzada_secundaria DECIMAL(10,2),
-  id_zona INT,
-  FOREIGN KEY (id_zona) REFERENCES zona(id));
+  sobreedad_avanzada_secundaria DECIMAL(10,2));
