@@ -140,7 +140,7 @@ GROUP BY anio,
 ORDER BY anio ASC,id_zona ASC;
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-CREATE TABLE fact_analisis-general.
+CREATE TABLE fact_analisis_general
 SELECT 
     r.anio,
     SUM(c.unidades_de_servicio_nivel_inicial + c.unidades_de_servicio_nivel_primario + c.unidades_de_servicio_nivel_secundario) as colegios_totales,
@@ -153,8 +153,8 @@ SELECT
     CAST(AVG(r.repitencia_secundaria) AS DECIMAL(10,2)) as repitencia_secundaria 
 FROM fact_repitencia r
 
-INNER JOIN fact_colegios c USING(id)
-INNER JOIN fact_inversion i USING(id)
+INNER JOIN fact_colegios c ON r.id_zona=c.id_zona AND r.anio=c.anio 
+INNER JOIN fact_inversion i ON r.id_zona=i.id_zona AND r.anio=i.anio 
 GROUP BY r.anio;
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -195,7 +195,7 @@ SELECT
     (matricula_nivel_inicial + matricula_nivel_primario + matricula_nivel_secundario) as matricula_total
 FROM fact_colegios c
 INNER JOIN zona z ON c.id_zona=z.id
-ORDER BY Zona,anio ASC
+ORDER BY zona,anio ASC
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE jup_repitencia
@@ -227,3 +227,16 @@ INNER JOIN zona z ON r.id_zona=z.id
 ORDER BY zona,anio ASC
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE jup_inversion_poblacion
+SELECT 
+	p.anio,
+    z.zona,
+    CAST(i.inversion_educativa_usd /(c.matricula_nivel_inicial + c.matricula_nivel_primario + c.matricula_nivel_secundario)AS DECIMAL (5,2)) AS inversion_alumno,
+    p.poblacion_total,
+    i.inversion_educativa_usd
+	FROM fact_poblacion p
+INNER JOIN zona z ON p.id_zona = z.Id
+INNER JOIN fact_inversion i ON p.id_zona = i.id_zona AND p.anio=i.anio
+INNER JOIN fact_colegios c ON p.id_zona = c.id_zona AND p.anio=c.anio
+ORDER BY zona,anio ASC;
+
