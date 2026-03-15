@@ -51,49 +51,36 @@ ORDER BY c.anio ASC,m.id_zona ASC;
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE fact_repitencia
-SELECT anio,
-	CASE 
-		 WHEN municipio_nombre IN ('San Isidro', 'Vicente Lopez', 'General San Martin','San Miguel','Malvinas Argentinas','San Fernando', 'Tigre') THEN 3
-		 WHEN municipio_nombre IN ('Ituzaingo','Moron', 'Hurlingham', 'Merlo', 'Moreno') THEN 2
-		 WHEN municipio_nombre IN ('Almirante Brown', 'Avellaneda', 'Quilmes', 'Lanus', 'Florencio Varela', 'Berazategui', 'Lomas de Zamora', 'Esteban Echeverria','Ezeiza') THEN 1
-		 WHEN municipio_nombre='La Matanza' THEN 4
-		 ELSE 5
-    END AS id_zona,
-	  CAST(AVG(promocion_efectiva_primaria) AS DECIMAL(10,2)) AS promocion_efectiva_primaria,
-    CAST(AVG(promocion_efectiva_secundaria) AS DECIMAL(10,2)) AS promocion_efectiva_secundaria,
-    CAST(AVG(repitencia_primaria) AS DECIMAL(10,2)) AS repitencia_primaria,
-    CAST(AVG(repitencia_secundaria) AS DECIMAL(10,2)) AS repitencia_secundaria,
-    CAST(AVG(reinscripcion_primaria) AS DECIMAL(10,2)) AS reinscripcion_primaria,
-    CAST(AVG(reinscripcion_secundaria) AS DECIMAL(10,2)) AS reinscripcion_secundaria,
-    CAST(AVG(abandono_interanual_primaria) AS DECIMAL(10,2)) AS abandono_interanual_primaria,
-    CAST(AVG(abandono_interanual_secundaria) AS DECIMAL(10,2)) AS abandono_interanual_secundaria,
-    CAST(AVG(alumnos_promovidos_primaria) AS DECIMAL(10,2)) AS alumnos_promovidos_primaria,
-    CAST(AVG(alumnos_promovidos_secundaria) AS DECIMAL(10,2)) AS alumnos_promovidos_secundaria,
-    CAST(AVG(alumnos_no_promovidos_primaria) AS DECIMAL(10,2)) AS alumnos_no_promovidos_primaria,
-    CAST(AVG(alumnos_no_promovidos_secundaria) AS DECIMAL(10,2)) AS alumnos_no_promovidos_secundaria,
-    CAST(AVG(salidos_sin_pase_primaria) AS DECIMAL(10,2)) AS salidos_sin_pase_primaria,
-    CAST(AVG(salidos_sin_pase_secundaria) AS DECIMAL(10,2)) AS salidos_sin_pase_secundaria,
-    CAST(AVG(salidos_con_pase_primaria) AS DECIMAL(10,2)) AS salidos_con_pase_primaria,
-    CAST(AVG(salidos_con_pase_secundaria) AS DECIMAL(10,2)) AS salidos_con_pase_secundaria,
-    CAST(AVG(sobreedad_primaria) AS DECIMAL(10,2)) AS sobreedad_primaria,
-    CAST(AVG(sobreedad_secundaria) AS DECIMAL(10,2)) AS sobreedad_secundaria,
-    CAST(AVG(sobreedad_avanzada_primaria) AS DECIMAL(10,2)) AS sobreedad_avanzada_primaria,
-    CAST(AVG(sobreedad_avanzada_secundaria) AS DECIMAL(10,2)) AS sobreedad_avanzada_secundaria
-FROM stg_repitencia
-WHERE (anio between 2013 and 2022) and municipio_nombre in ("Almirante Brown", "Avellaneda", "Berazategui", "Berisso", "Brandsen", 
-    "Campana", "Cañuelas", "Ensenada", "Escobar", "Esteban Echeverría", "Exaltación de la Cruz", "Ezeiza", "Florencio Varela", "General Las Heras", 
-    "General Rodríguez", "General San Martín", "Hurlingham", "Ituzaingó", "José C. Paz", "La Matanza", "La Plata", "Lanús", "Lomas de Zamora", 
-    "Luján", "Malvinas Argentinas", "Marcos Paz", "Merlo", "Moreno", "Morón", "Pilar", "Presidente Perón", "Quilmes", "San Fernando", 
-    "San Isidro", "San Miguel", "San Vicente", "Tigre", "Tres de Febrero", "Vicente López", "Zárate")
-GROUP BY anio, 
-		CASE 
-		 WHEN municipio_nombre IN ('San Isidro', 'Vicente Lopez', 'General San Martin','San Miguel','Malvinas Argentinas','San Fernando', 'Tigre') THEN 3
-		 WHEN municipio_nombre IN ('Ituzaingo','Moron', 'Hurlingham', 'Merlo', 'Moreno') THEN 2
-		 WHEN municipio_nombre IN ('Almirante Brown', 'Avellaneda', 'Quilmes', 'Lanus', 'Florencio Varela', 'Berazategui', 'Lomas de Zamora', 'Esteban Echeverria','Ezeiza') THEN 1
-		 WHEN municipio_nombre='La Matanza' THEN 4
-		 ELSE 5
-    END
-ORDER BY anio ASC,id_zona ASC;
+SELECT 
+	r.anio,
+	m.id_zona,
+	CAST(AVG(r.promocion_efectiva_primaria) AS DECIMAL(10,2)) AS promocion_efectiva_primaria,
+    CAST(AVG(r.promocion_efectiva_secundaria) AS DECIMAL(10,2)) AS promocion_efectiva_secundaria,
+    CAST(AVG(r.repitencia_primaria) AS DECIMAL(10,2)) AS repitencia_primaria,
+    CAST(AVG(r.repitencia_secundaria) AS DECIMAL(10,2)) AS repitencia_secundaria,
+    CAST(AVG(r.reinscripcion_primaria) AS DECIMAL(10,2)) AS reinscripcion_primaria,
+    CAST(AVG(r.reinscripcion_secundaria) AS DECIMAL(10,2)) AS reinscripcion_secundaria,
+    CAST(AVG(r.abandono_interanual_primaria) AS DECIMAL(10,2)) AS abandono_interanual_primaria,
+    CAST(AVG(r.abandono_interanual_secundaria) AS DECIMAL(10,2)) AS abandono_interanual_secundaria,
+    CAST(AVG(r.alumnos_promovidos_primaria) AS DECIMAL(10,2)) AS alumnos_promovidos_primaria,
+    CAST(AVG(r.alumnos_promovidos_secundaria) AS DECIMAL(10,2)) AS alumnos_promovidos_secundaria,
+    CAST(AVG(r.alumnos_no_promovidos_primaria) AS DECIMAL(10,2)) AS alumnos_no_promovidos_primaria,
+    CAST(AVG(r.alumnos_no_promovidos_secundaria) AS DECIMAL(10,2)) AS alumnos_no_promovidos_secundaria,
+    CAST(AVG(r.salidos_sin_pase_primaria) AS DECIMAL(10,2)) AS salidos_sin_pase_primaria,
+    CAST(AVG(r.salidos_sin_pase_secundaria) AS DECIMAL(10,2)) AS salidos_sin_pase_secundaria,
+    CAST(AVG(r.salidos_con_pase_primaria) AS DECIMAL(10,2)) AS salidos_con_pase_primaria,
+    CAST(AVG(r.salidos_con_pase_secundaria) AS DECIMAL(10,2)) AS salidos_con_pase_secundaria,
+    CAST(AVG(r.sobreedad_primaria) AS DECIMAL(10,2)) AS sobreedad_primaria,
+    CAST(AVG(r.sobreedad_secundaria) AS DECIMAL(10,2)) AS sobreedad_secundaria,
+    CAST(AVG(r.sobreedad_avanzada_primaria) AS DECIMAL(10,2)) AS sobreedad_avanzada_primaria,
+    CAST(AVG(r.sobreedad_avanzada_secundaria) AS DECIMAL(10,2)) AS sobreedad_avanzada_secundaria
+FROM stg_repitencia r
+
+INNER JOIN stg_localizacion_municipios m USING(municipio_id)
+
+WHERE anio between 2013 and 2022
+GROUP BY r.anio,m.id_zona
+ORDER BY r.anio ASC,m.id_zona ASC;
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE fact_analisis_general
@@ -116,83 +103,66 @@ GROUP BY r.anio;
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE jup_alumnos_colegios
 SELECT
-  	anio,
-  	zona,
-    unidades_de_servicio_nivel_inicial,
-  	unidades_de_servicio_nivel_primario,
-  	unidades_de_servicio_nivel_secundario,
-  	sector_de_gestion_estatal,
-  	sector_de_gestion_privada,
-  	matricula_nivel_inicial,
-  	matricula_nivel_primario,
-  	matricula_nivel_secundario,
-  	matricula_sexo_masculino,
-  	matricula_sexo_femenino,
-    (matricula_nivel_inicial + matricula_nivel_primario + matricula_nivel_secundario) as matricula_total
+  	c.anio,
+  	z.zona,
+    c.unidades_de_servicio_nivel_inicial,
+  	c.unidades_de_servicio_nivel_primario,
+  	c.unidades_de_servicio_nivel_secundario,
+  	c.sector_de_gestion_estatal,
+  	c.sector_de_gestion_privada,
+  	c.matricula_nivel_inicial,
+  	c.matricula_nivel_primario,
+  	c.matricula_nivel_secundario,
+  	c.matricula_sexo_masculino,
+  	c.matricula_sexo_femenino,
+    (c.matricula_nivel_inicial + c.matricula_nivel_primario + c.matricula_nivel_secundario) as matricula_total
 FROM fact_colegios c
-INNER JOIN zona z ON c.id_zona=z.id
-ORDER BY zona,anio ASC
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-CREATE TABLE jup_alumnos_colegios
-SELECT
-  	anio,
-  	zona,
-    unidades_de_servicio_nivel_inicial,
-  	unidades_de_servicio_nivel_primario,
-  	unidades_de_servicio_nivel_secundario,
-  	sector_de_gestion_estatal,
-  	sector_de_gestion_privada,
-  	matricula_nivel_inicial,
-  	matricula_nivel_primario,
-  	matricula_nivel_secundario,
-  	matricula_sexo_masculino,
-  	matricula_sexo_femenino,
-    (matricula_nivel_inicial + matricula_nivel_primario + matricula_nivel_secundario) as matricula_total
-FROM fact_colegios c
-INNER JOIN zona z ON c.id_zona=z.id
-ORDER BY zona,anio ASC
+INNER JOIN stg_zona z ON c.id_zona=z.id
+ORDER BY c.anio ASC, z.zona ASC;
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE jup_repitencia
 SELECT 
-	anio,
-  zona,
-	promocion_efectiva_primaria, 
-	promocion_efectiva_secundaria,
-	repitencia_primaria, 
-	repitencia_secundaria,
-	reinscripcion_primaria,
-	reinscripcion_secundaria,
-	abandono_interanual_primaria,
-	abandono_interanual_secundaria,
-	alumnos_promovidos_primaria,
-	alumnos_promovidos_secundaria,
-	alumnos_no_promovidos_primaria,
-	alumnos_no_promovidos_secundaria,
-	salidos_sin_pase_primaria,
-	salidos_sin_pase_secundaria,
-	salidos_con_pase_primaria ,
-	salidos_con_pase_secundaria ,
-	sobreedad_primaria ,
-	sobreedad_secundaria ,
-	sobreedad_avanzada_primaria,
-	sobreedad_avanzada_secundaria
+	r.anio,
+    z.zona,
+	r.promocion_efectiva_primaria, 
+	r.promocion_efectiva_secundaria,
+	r.repitencia_primaria, 
+	r.repitencia_secundaria,
+	r.reinscripcion_primaria,
+	r.reinscripcion_secundaria,
+	r.abandono_interanual_primaria,
+	r.abandono_interanual_secundaria,
+	r.alumnos_promovidos_primaria,
+	r.alumnos_promovidos_secundaria,
+	r.alumnos_no_promovidos_primaria,
+	r.alumnos_no_promovidos_secundaria,
+	r.salidos_sin_pase_primaria,
+	r.salidos_sin_pase_secundaria,
+	r.salidos_con_pase_primaria ,
+	r.salidos_con_pase_secundaria ,
+	r.sobreedad_primaria ,
+	r.sobreedad_secundaria ,
+	r.sobreedad_avanzada_primaria,
+	r.sobreedad_avanzada_secundaria
 FROM fact_repitencia r
-INNER JOIN zona z ON r.id_zona=z.id
-ORDER BY zona,anio ASC
+	
+INNER JOIN stg_zona z ON r.id_zona=z.id
+ORDER BY r.anio ASC, z.zona ASC;
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE jup_inversion_poblacion
 SELECT 
 	p.anio,
     z.zona,
+	p.poblacion_total,
     CAST(i.inversion_educativa_usd /(c.matricula_nivel_inicial + c.matricula_nivel_primario + c.matricula_nivel_secundario)AS DECIMAL (5,2)) AS inversion_alumno,
-    p.poblacion_total,
     i.inversion_educativa_usd
-	FROM fact_poblacion p
-INNER JOIN zona z ON p.id_zona = z.Id
-INNER JOIN fact_inversion i ON p.id_zona = i.id_zona AND p.anio=i.anio
+FROM fact_poblacion p
+	
+INNER JOIN stg_zona z ON p.id_zona = z.id
+INNER JOIN fact_inversion i ON p. id_zona = i.id_zona AND p.anio=i.anio	
 INNER JOIN fact_colegios c ON p.id_zona = c.id_zona AND p.anio=c.anio
-ORDER BY zona,anio ASC;
+	
+ORDER BY p.anio ASC, z.zona ASC;
 
