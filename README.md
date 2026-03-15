@@ -3,7 +3,7 @@
 Este proyecto integra datos de múltiples fuentes (Inversión, Población, Educación) para analizar el impacto del presupuesto en el rendimiento escolar del Área Metropolitana de Buenos Aires.
 
 ## 🚀 Resultado Final: Business Intelligence
-![Dashboard Interactivo](img/dashboard_final.png) 
+![Dashboard Interactivo](img/dashboard.png) 
 
 ## 🛠️ Mi Flujo de Trabajo (End-to-End)
 
