@@ -21,7 +21,7 @@ CREATE TABLE stg_inversion (
     mes INT,
     municipio_id INT,
 	municipio_nombre VARCHAR(50),
-    concepto VARCHAR(50),
+    concepto VARCHAR(100),
     monto FLOAT);
 
 -------------------------------------------------------------------------------------------------------------------------------
