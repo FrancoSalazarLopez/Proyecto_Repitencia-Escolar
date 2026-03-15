@@ -4,6 +4,12 @@ CREATE TABLE stg_zona
      primary key(id));
 
 -------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE stg_localizacion_municipios 
+	(municipio_nombre VARCHAR(50),
+    id_zona INT,
+    FOREIGN KEY(id_zona) REFERENCES stg_zona(id));
+
+-------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE stg_dolar(
 	 anio INT,
      valor DECIMAL(10,2));
