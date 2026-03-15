@@ -8,7 +8,7 @@ FROM stg_inversion i
 INNER JOIN stg_dolar d ON i.anio=d.anio
 INNER JOIN stg_localizacion_municipios m ON i.municipio_id=m.municipio_id
 
-WHERE i.anio BETWEEN 2013 and 2022 and i.concepto="Fondo Financiamiento Educativo"
+WHERE i.anio between 2013 and 2022 and i.concepto="Fondo Financiamiento Educativo"
 GROUP BY i.anio,m.id_zona
 ORDER BY i.anio ASC, m.id_zona ASC;
 
@@ -22,45 +22,32 @@ FROM stg_poblacion p
 
 INNER JOIN stg_localizacion_municipios m ON p.municipio_id=m.municipio_id
 
-WHERE p.anio BETWEEN 2013 and 2022 
+WHERE p.anio between 2013 and 2022 
 GROUP BY p.anio,m.id_zona
 ORDER BY p.anio ASC,m.id_zona ASC;
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE fact_colegios
-SELECT anio,
-	CASE 
-		 WHEN municipio_nombre IN ('San Isidro', 'Vicente Lopez', 'General San Martin','San Miguel','Malvinas Argentinas','San Fernando', 'Tigre') THEN 3
-		 WHEN municipio_nombre IN ('Ituzaingo','Moron', 'Hurlingham', 'Merlo', 'Moreno') THEN 2
-		 WHEN municipio_nombre IN ('Almirante Brown', 'Avellaneda', 'Quilmes', 'Lanus', 'Florencio Varela', 'Berazategui', 'Lomas de Zamora', 'Esteban Echeverria','Ezeiza') THEN 1
-		 WHEN municipio_nombre='La Matanza' THEN 4
-		 ELSE 5
-  END AS id_zona,
-	  SUM(unidades_de_servicio_nivel_inicial) as unidades_de_servicio_nivel_inicial,
-	  SUM(unidades_de_servicio_nivel_primario) as unidades_de_servicio_nivel_primario,
-    SUM(unidades_de_servicio_nivel_secundario) as unidades_de_servicio_nivel_secundario,
-    SUM(sector_de_gestión_estatal) as sector_de_gestion_estatal,
-    SUM(sector_de_gestión_privada) as sector_de_gestion_privada,
-    SUM(matricula_nivel_inicial) as matricula_nivel_inicial,
-    SUM(matricula_nivel_primario) as matricula_nivel_primario,
-    SUM(matricula_nivel_secundario) as matricula_nivel_secundario,
-    SUM(matricula_sexo_masculino) as matricula_sexo_masculino,
-    SUM(matricula_sexo_femenino) as matricula_sexo_femenino
-FROM stg_colegios_2
-WHERE (anio between 2013 and 2022) and municipio_nombre in ("Almirante Brown", "Avellaneda", "Berazategui", "Berisso", "Brandsen", 
-    "Campana", "Cañuelas", "Ensenada", "Escobar", "Esteban Echeverría", "Exaltación de la Cruz", "Ezeiza", "Florencio Varela", "General Las Heras", 
-    "General Rodríguez", "General San Martín", "Hurlingham", "Ituzaingó", "José C. Paz", "La Matanza", "La Plata", "Lanús", "Lomas de Zamora", 
-    "Luján", "Malvinas Argentinas", "Marcos Paz", "Merlo", "Moreno", "Morón", "Pilar", "Presidente Perón", "Quilmes", "San Fernando", 
-    "San Isidro", "San Miguel", "San Vicente", "Tigre", "Tres de Febrero", "Vicente López", "Zárate")
-GROUP BY anio, 
-		CASE 
-		 WHEN municipio_nombre IN ('San Isidro', 'Vicente Lopez', 'General San Martin','San Miguel','Malvinas Argentinas','San Fernando', 'Tigre') THEN 3
-		 WHEN municipio_nombre IN ('Ituzaingo','Moron', 'Hurlingham', 'Merlo', 'Moreno') THEN 2
-		 WHEN municipio_nombre IN ('Almirante Brown', 'Avellaneda', 'Quilmes', 'Lanus', 'Florencio Varela', 'Berazategui', 'Lomas de Zamora', 'Esteban Echeverria','Ezeiza') THEN 1
-		 WHEN municipio_nombre='La Matanza' THEN 4
-		 ELSE 5
-    END
-ORDER BY anio ASC,id_zona ASC;
+SELECT 
+	c.anio,
+    m.id_zona,
+	SUM(c.unidades_de_servicio_nivel_inicial) as unidades_de_servicio_nivel_inicial,
+	SUM(c.unidades_de_servicio_nivel_primario) as unidades_de_servicio_nivel_primario,
+    SUM(c.unidades_de_servicio_nivel_secundario) as unidades_de_servicio_nivel_secundario,
+    SUM(c.sector_de_gestión_estatal) as sector_de_gestion_estatal,
+    SUM(c.sector_de_gestión_privada) as sector_de_gestion_privada,
+    SUM(c.matricula_nivel_inicial) as matricula_nivel_inicial,
+    SUM(c.matricula_nivel_primario) as matricula_nivel_primario,
+    SUM(c.matricula_nivel_secundario) as matricula_nivel_secundario,
+    SUM(c.matricula_sexo_masculino) as matricula_sexo_masculino,
+    SUM(c.matricula_sexo_femenino) as matricula_sexo_femenino
+FROM stg_colegios c
+
+INNER JOIN stg_localizacion_municipios m ON c.municipio_id=m.municipio_id
+
+WHERE anio between 2013 and 2022
+GROUP BY c.anio,m.id_zona
+ORDER BY c.anio ASC,m.id_zona ASC;
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE fact_repitencia
