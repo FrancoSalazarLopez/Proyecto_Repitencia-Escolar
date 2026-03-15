@@ -1,61 +1,30 @@
-CREATE fact_inversion
-SELECT i.anio,
-	CASE 
-		 WHEN municipio_nombre IN ('San Isidro', 'Vicente Lopez', 'General San Martin','San Miguel','Malvinas Argentinas','San Fernando', 'Tigre') THEN 3
-		 WHEN municipio_nombre IN ('Ituzaingo','Moron', 'Hurlingham', 'Merlo', 'Moreno') THEN 2
-		 WHEN municipio_nombre IN ('Almirante Brown', 'Avellaneda', 'Quilmes', 'Lanus', 'Florencio Varela', 'Berazategui', 'Lomas de Zamora', 'Esteban Echeverria','Ezeiza') THEN 1
-		 WHEN municipio_nombre='La Matanza' THEN 4
-		 ELSE 5
-    END AS id_zona,
-	CAST(SUM(i.monto/d.valor) AS DECIMAL(15,0)) AS inversion_educativa_usd
-FROM stg_inversion
-INNER JOIN dolar d ON i.anio=d.anio
-WHERE 
-	 (i.anio between 2013 and 2022) 
-	 and i.municipio_nombre in ("Almirante Brown", "Avellaneda", "Berazategui", "Berisso", "Brandsen", 
-    "Campana", "Cañuelas", "Ensenada", "Escobar", "Esteban Echeverría", "Exaltación de la Cruz", "Ezeiza", "Florencio Varela", "General Las Heras", 
-    "General Rodríguez", "General San Martín", "Hurlingham", "Ituzaingó", "José C. Paz", "La Matanza", "La Plata", "Lanús", "Lomas de Zamora", 
-    "Luján", "Malvinas Argentinas", "Marcos Paz", "Merlo", "Moreno", "Morón", "Pilar", "Presidente Perón", "Quilmes", "San Fernando", 
-    "San Isidro", "San Miguel", "San Vicente", "Tigre", "Tres de Febrero", "Vicente López", "Zárate") 
-   and i.concepto="Fondo Financiamiento Educativo"
-GROUP BY anio,
-	CASE 
-		 WHEN municipio_nombre IN ('San Isidro', 'Vicente Lopez', 'General San Martin','San Miguel','Malvinas Argentinas','San Fernando', 'Tigre') THEN 3
-		 WHEN municipio_nombre IN ('Ituzaingo','Moron', 'Hurlingham', 'Merlo', 'Moreno') THEN 2
-		 WHEN municipio_nombre IN ('Almirante Brown', 'Avellaneda', 'Quilmes', 'Lanus', 'Florencio Varela', 'Berazategui', 'Lomas de Zamora', 'Esteban Echeverria','Ezeiza') THEN 1
-		 WHEN municipio_nombre='La Matanza' THEN 4
-		 ELSE 5
-  END
-ORDER BY anio ASC,id_zona ASC;
+CREATE TABLE fact_inversion
+SELECT 
+	i.anio,
+    m.id_zona,
+    CAST(SUM(i.monto/d.valor) AS DECIMAL(15,0)) AS inversion_educativa_usd
+FROM stg_inversion i
+
+INNER JOIN stg_dolar d ON i.anio=d.anio
+INNER JOIN stg_localizacion_municipios m ON i.municipio_id=m.municipio_id
+
+WHERE i.anio BETWEEN 2013 and 2022 and i.concepto="Fondo Financiamiento Educativo"
+GROUP BY i.anio,m.id_zona
+ORDER BY i.anio ASC, m.id_zona ASC;
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE fact_poblacion
-SELECT anio,
-	CASE 
-		 WHEN municipio_nombre IN ('San Isidro', 'Vicente Lopez', 'General San Martin','San Miguel','Malvinas Argentinas','San Fernando', 'Tigre') THEN 3
-		 WHEN municipio_nombre IN ('Ituzaingo','Moron', 'Hurlingham', 'Merlo', 'Moreno') THEN 2
-		 WHEN municipio_nombre IN ('Almirante Brown', 'Avellaneda', 'Quilmes', 'Lanus', 'Florencio Varela', 'Berazategui', 'Lomas de Zamora', 'Esteban Echeverria','Ezeiza') THEN 1
-		 WHEN municipio_nombre='La Matanza' THEN 4
-		 ELSE 5
-     END AS id_zona,
-	SUM(poblacion) AS poblacion_total
-FROM stg_poblacion_2  
-WHERE 
-	 (anio between 2013 and 2022) 
-	 and municipio_nombre in ("Almirante Brown", "Avellaneda", "Berazategui", "Berisso", "Brandsen", 
-    "Campana", "Cañuelas", "Ensenada", "Escobar", "Esteban Echeverría", "Exaltación de la Cruz", "Ezeiza", "Florencio Varela", "General Las Heras", 
-    "General Rodríguez", "General San Martín", "Hurlingham", "Ituzaingó", "José C. Paz", "La Matanza", "La Plata", "Lanús", "Lomas de Zamora", 
-    "Luján", "Malvinas Argentinas", "Marcos Paz", "Merlo", "Moreno", "Morón", "Pilar", "Presidente Perón", "Quilmes", "San Fernando", 
-    "San Isidro", "San Miguel", "San Vicente", "Tigre", "Tres de Febrero", "Vicente López", "Zárate") 
-GROUP BY anio,
-	CASE 
-		 WHEN municipio_nombre IN ('San Isidro', 'Vicente Lopez', 'General San Martin','San Miguel','Malvinas Argentinas','San Fernando', 'Tigre') THEN 3
-		 WHEN municipio_nombre IN ('Ituzaingo','Moron', 'Hurlingham', 'Merlo', 'Moreno') THEN 2
-		 WHEN municipio_nombre IN ('Almirante Brown', 'Avellaneda', 'Quilmes', 'Lanus', 'Florencio Varela', 'Berazategui', 'Lomas de Zamora', 'Esteban Echeverria','Ezeiza') THEN 1
-		 WHEN municipio_nombre='La Matanza' THEN 4
-		 ELSE 5
-  END
-ORDER BY anio ASC,id_zona ASC;
+SELECT 
+	p.anio,
+    m.id_zona,
+    SUM(p.poblacion) AS poblacion_total
+FROM stg_poblacion p
+
+INNER JOIN stg_localizacion_municipios m ON p.municipio_id=m.municipio_id
+
+WHERE p.anio BETWEEN 2013 and 2022 
+GROUP BY p.anio,m.id_zona
+ORDER BY p.anio ASC,m.id_zona ASC;
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE fact_colegios
