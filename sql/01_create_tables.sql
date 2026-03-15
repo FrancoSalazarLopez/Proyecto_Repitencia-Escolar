@@ -5,7 +5,8 @@ CREATE TABLE stg_zona
 
 -------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE stg_localizacion_municipios 
-	(municipio_nombre VARCHAR(50),
+	(municipio_id INT PRIMARY KEY,
+    municipio_nombre VARCHAR(50),
     id_zona INT,
     FOREIGN KEY(id_zona) REFERENCES stg_zona(id));
 
