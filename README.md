@@ -1,6 +1,6 @@
 # 📊 Análisis de Inversión y Rendimiento Educativo - AMBA (2012-2022)
 
-Este proyecto integra datos de múltiples fuentes (Inversión, Población, Educación) para analizar el impacto del presupuesto en el rendimiento escolar del Área Metropolitana de Buenos Aires.
+Este proyecto integra datos de múltiples fuentes (Inversión, Población, Educación,Establecimientos Educativos) para analilizar la repitencia escolaar y poder encontrar variables que explique dicho caso.
 
 ##  Resultado Final: Business Intelligence
 ![Dashboard Interactivo](img/dashboard_final.png) 
