@@ -1,8 +1,8 @@
 # 📊 Análisis de Inversión y Rendimiento Educativo - AMBA (2012-2022)
 
-Este proyecto integra datos de múltiples fuentes (Inversión, Población, Educación,Establecimientos Educativos) para analilizar la repitencia escolaar y poder encontrar variables que explique dicho caso.
+Este proyecto integra datos de múltiples fuentes (Inversión, Población, Educación,Establecimientos Educativos) para analilizar la repitencia escolar, en donde vamos a buscar variables independientes que expliquen la repitencia y con dichas variables crear un modelo para predecir la repitencia escolar en los proximos años.
 
-##  Resultado Final: Business Intelligence
+##  Resultado Final: Business Intelligencea
 ![Dashboard Interactivo](img/dashboard_final.png) 
 
 ##  Flujo de Trabajo
